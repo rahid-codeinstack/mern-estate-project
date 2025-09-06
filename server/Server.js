@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { connectDataBase } from './DB/connection.js';
+import authRouter from './routers/auth.route.js'
 dotenv.config();
 
 const app = express();
@@ -13,8 +14,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
 // ------------------------------------- route middlware section ---------------------------------------------
-
-
+app.use('/api/auth' , authRouter);
 
 
 // -------------------------------------- test route ---------------------------------------------------------
