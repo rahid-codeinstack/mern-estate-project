@@ -5,6 +5,7 @@ import { IoMdEyeOff } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import {  FaUsers } from "react-icons/fa";
+import {useNavigate} from 'react-router-dom'
 
 
 function SignUp() {
@@ -18,6 +19,7 @@ function SignUp() {
       email:"",
       password:"",
   })
+  const navigate = useNavigate();
 function handleChange(e){
     const key = e.target.id;
     const value = e.target.value;
@@ -46,7 +48,24 @@ function validatForm ( ) {
  async function handleFormSubmite (e) {
     e.preventDefault();
     if(validatForm()){
-        alert("hellow world");
+       try {
+          const res = await fetch('/api/auth/sign-up',{
+            method:"POST",
+            headers:{
+                'Content-Type':"Application/json",
+            },
+            body:JSON.stringify(FormData),
+          })
+          const data = await res.json();
+          console.log(data);
+          if(!data.success){
+            setError({...Error,errorMessage:data.message});
+            return;
+          }
+          navigate("/sign-in");
+       } catch (error) {
+            setError({...Error,errorMessage:error.message});
+       }
     }
 
  }
