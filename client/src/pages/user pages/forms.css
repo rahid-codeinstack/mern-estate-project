@@ -48,6 +48,12 @@ form .inputbox .showhid-icons{
 .form .error{
      font-size: 10px;
 }
+.google-button:hover{
+     transition: all .30s ease-in-out;
+}
+.google-button:hover{
+opacity: 0.8;
+}
 
 
 
@@ -79,4 +85,6 @@ form .inputbox .showhid-icons{
      }
      
 }
+
+
 
