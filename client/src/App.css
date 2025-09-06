@@ -1,0 +1,20 @@
+
+
+
+:root{
+    --header-color:#3692D0;
+    --slate-color:#274052;
+    --white-color:#FFFCFB;
+    --black-color:#000000;
+    --dark-gray-color:#777777;
+}
+ body{
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  border: none;
+  outline: none;
+  background-color:var(--slate-color) !important;
+  color: white !important;
+
+}

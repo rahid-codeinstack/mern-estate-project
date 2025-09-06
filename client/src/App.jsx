@@ -6,12 +6,14 @@ import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import SignUp from "./pages/user pages/Signup";
 import Profile from "./pages/Profile/Profile";
+import Header from "./Components/Header/Header";
 
 
 
 function App() {
   return (
     <BrowserRouter>
+           <Header/>
       <Routes>
            <Route path="/"        element={<Home/>}/>
            <Route path="/sign-up" element={<SignUp/> } />
