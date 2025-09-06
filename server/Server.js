@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import { connectDataBase } from './DB/connection.js';
 dotenv.config();
 
 const app = express();
@@ -32,3 +33,6 @@ const portno = process.env.PORTNO || 3000 ;
 app.listen(portno,()=>{
      console.log( "app running on portno "+ portno );
 })
+
+// ----------------------------------------------- db connection call ------------------------------------------------
+connectDataBase()
