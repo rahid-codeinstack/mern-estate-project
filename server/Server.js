@@ -35,4 +35,17 @@ app.listen(portno,()=>{
 })
 
 // ----------------------------------------------- db connection call ------------------------------------------------
+
 connectDataBase()
+
+// ----------------------------------------------- error handle middleware ------------------------------------------------
+
+app.use((error,req,res,next)=>{
+     const statusCode = error.status || error.statusCode || 500;
+     const message = error.message || 'internal server error ';
+     res.status(statusCode).json({
+          message,
+          statusCode,
+          success:false
+     })
+})
