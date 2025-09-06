@@ -18,3 +18,11 @@
   color: white !important;
 
 }
+
+.button{
+  padding: 12px;
+  border-radius: 30px;
+  width: 100%;
+  outline: none;
+  border: none;
+}
