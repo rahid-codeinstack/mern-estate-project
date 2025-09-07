@@ -4,6 +4,9 @@ import {MdEmail,MdPassword} from 'react-icons/md'
 import { IoMdEyeOff } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
 import {  useState } from "react";
+import { signInStart, signInFailure , signInSuccess  } from "../../Redux/userSlice";
+import { useDispatch , useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -17,6 +20,11 @@ function SignIn() {
       email:"",
       password:"",
   })
+  const {Loading } = useSelector(( state ) => {
+    return state.user;
+  });
+  const dispatch  = useDispatch();
+  const navigate = useNavigate();
 function handleChange(e){
     const key = e.target.id;
     const value = e.target.value;
@@ -41,7 +49,30 @@ function validatForm ( ) {
  async function handleFormSubmite (e) {
     e.preventDefault();
     if(validatForm()){
-        alert("hellow world");
+        try {
+          dispatch(signInStart());
+          const res = await fetch("/api/auth/sign-in",{
+            method:"POST",
+            headers:{
+              "Content-Type":"Application/json",
+            }
+            ,
+            body:JSON.stringify(FormData)
+
+          })
+          const data  = await res.json();
+          if(!data.success){
+            setError({...Error,errorMessage:data.message});
+            return;
+          }
+          dispatch(signInSuccess(data.user));
+          navigate("/")
+          
+        } catch (error) {
+          setError({...Error,errorMessage:error.message});
+          console.log(error);
+
+        }
     }
 
  }
@@ -68,7 +99,14 @@ function validatForm ( ) {
                 }
             </div>
             <div className="inputbox mt-2 w-full  border   text-center  rounded-5 ">
-                <button  className="submite-button text-white  button ">Sign In</button>
+                <button disabled={Loading}  className="submite-button text-white  button ">
+                  {
+                      Loading ?  <div class="spinner-border text-white " role="status">
+                                <span class="visually-hidden">Loading...</span>
+                               </div>:"SIGN IN"
+                  }
+                </button>
+               
             </div>
             <div className=" w-full d-flex justify-content-start gap-1 align-item-center flex-column text-center  rounded-5 ">
                <span className="text-dark p-0">have not already account ? </span>
