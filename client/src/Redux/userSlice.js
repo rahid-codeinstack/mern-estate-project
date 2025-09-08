@@ -6,28 +6,27 @@ const initialState = {
      Error:null,
 }
 
-const userReducer = {
-          signInStart:function(state){
-               state.Loading =  true;
-               state.Error = null;
 
-          },
-          signInSuccess: function (state, action ) { 
-                    state.user = action.payloade;
-                    state.Loading = false;
-                    state.Error = null;
-          },
-          signInFailure: function (state , action){
-                   state.Loading = false;
-                   state.Error = action.payloade;
-               }
-
-}
 
 const userSlice = createSlice({
           name:"user",
           initialState,
-          reducers:userReducer,
+     reducers:{
+          signInStart: function (state) {
+               state.Loading = true;
+               state.Error = null;
+
+          },
+          signInSuccess: function (state, action) {
+               state.user = action.payload;
+               state.Loading = false;
+               state.Error = null;
+          },
+          signInFailure: function (state, action) {
+               state.Loading = false;
+               state.Error = action.payloade;
+          }
+     }
 })
 
 

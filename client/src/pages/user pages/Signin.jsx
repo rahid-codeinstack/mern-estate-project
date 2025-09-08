@@ -80,34 +80,31 @@ function validatForm ( ) {
  }
 
   async function signInWithGoogle (){
-    try {
-        const provider = new  GoogleAuthProvider();
+      const provider = new  GoogleAuthProvider();
         const resulte = await signInWithPopup(auth,provider);
         const  username = resulte.user.displayName.split(" ").join("");
         const email = resulte.user.email;
-        if(username && email){
-          console.log(username);
-          console.log(email);
-          return;
-            signInStart();
-            const res =await fetch('/api/auth/google',{
-              method:"POST",
-              headers:{
-                'Content-Tyep':"Applicaton/json",
+
+      try {
+              const res = await fetch("/api/auth/google",{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({username:username,email:email})
+              })
+              const data = await res.json();
+              if(!data.success)
+              {
+                setError({...Error,errorMessage:data.message});
+                return;
               }
-              ,
-              body:JSON.stringify({username,email})
-
-            })
-          const data = res.json();
-          dispatch(signInSuccess(data.user));
-
-        }
-
-
-    } catch (error) {
-      dispatch(signInFailure(error.message));
-    }
+              dispatch(signInSuccess(data.user));
+              navigate("/")
+      } catch (error) {
+          setError({...Error,errorMessage:error.message});
+      }
+    
  }
   return (
     <div className="container-fuid mt-4 ">

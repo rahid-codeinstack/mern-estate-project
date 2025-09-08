@@ -97,11 +97,12 @@ function generatePassword(passLength){
 }
 
  export async function  google(req,res,next) {
-     const {username, email } = req.body;
+     const username = req.body.username;
+     const email = req.body.email;
      const user = await USER_MODEL.findOne({email});
 
      if(user){
-          const token = jwt.sign({ id:user._id }, process.env.JWT_SECRET);
+          const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
           res.status(200).cookie("access_token", token, {
                httpOnly: true,
                maxAge: 1000 * 60 * 60 * 24 * 3
@@ -113,7 +114,7 @@ function generatePassword(passLength){
                     message: "sign in successfully ",
                     statusCode: 200,
                     user: {
-                         _id:user_id,
+                         _id:user._id,
                          email:user.email,
                          username:user.username,
                     }
