@@ -74,3 +74,74 @@ export async function  signIn(req,res,next) {
      }
      
 }
+
+
+
+
+
+
+
+
+
+
+// ------------------------------------------ sign in with google -------------------------------------
+
+function generatePassword(passLength){
+     const pasString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~<>?";
+     let password = "";
+     for(let i = 0 ; i <= passLength ; i++ ){
+          let passchar = Math.floor(Math.random() * pasString.length);
+          password  += passchar;
+     }
+     return password;
+}
+
+ export async function  google(req,res,next) {
+     const {username, email } = req.body;
+     const user = await USER_MODEL.findOne({email});
+
+     if(user){
+          const token = jwt.sign({ id:user._id }, process.env.JWT_SECRET);
+          res.status(200).cookie("access_token", token, {
+               httpOnly: true,
+               maxAge: 1000 * 60 * 60 * 24 * 3
+               ,
+               secure: true,
+
+          }).json({
+                    success: true,
+                    message: "sign in successfully ",
+                    statusCode: 200,
+                    user: {
+                         _id:user_id,
+                         email:user.email,
+                         username:user.username,
+                    }
+               })
+     }else{
+          const newPassword = generatePassword(10);
+          const hashPassword = hashSync(newPassword,10);
+          const newUser = new USER_MODEL({username,email,password:hashPassword});
+          newUser.save();
+      
+               const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+               res.status(200).cookie("access_token", token, {
+                    httpOnly: true,
+                    maxAge: 1000 * 60 * 60 * 24 * 3
+                    ,
+                    secure: true,
+
+               }).json({
+                    success: true,
+                    message: "sign in successfully ",
+                    statusCode: 200,
+                    user: {
+                         _id: newUser._id,
+                         email: newUser.email,
+                         username: newUser.username,
+                    }
+               })
+          }
+
+     }
+     

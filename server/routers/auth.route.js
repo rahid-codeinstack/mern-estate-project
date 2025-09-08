@@ -1,5 +1,5 @@
 import express from 'express';
-import { signUp , signIn } from '../Controller/auth.controller.js';
+import { signUp , signIn  , google} from '../Controller/auth.controller.js';
 import {ipKeyGenerator, rateLimit} from 'express-rate-limit'
 
 const router = express.Router();
@@ -36,7 +36,8 @@ const  signUpRateLimit = rateLimit({
 
      
           router.post("/sign-up", signUpRateLimit, signUp);
-          router.post("/sign-in",signInRateLimit,signIn)
+          router.post("/sign-in",signInRateLimit,signIn);
+          router.post("/google",google);
 
 
 export default router;
