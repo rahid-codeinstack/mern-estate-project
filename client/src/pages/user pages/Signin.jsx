@@ -7,6 +7,8 @@ import {  useState } from "react";
 import { signInStart, signInFailure , signInSuccess  } from "../../Redux/userSlice";
 import { useDispatch , useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import auth from "../../firebase/fireBase.config";
+import { GoogleAuthProvider , signInWithPopup } from "firebase/auth";
 
 
 
@@ -77,7 +79,36 @@ function validatForm ( ) {
 
  }
 
-  
+  async function signInWithGoogle (){
+    try {
+        const provider = new  GoogleAuthProvider();
+        const resulte = await signInWithPopup(auth,provider);
+        const  username = resulte.user.displayName.split(" ").join("");
+        const email = resulte.user.email;
+        if(username && email){
+          console.log(username);
+          console.log(email);
+          return;
+            signInStart();
+            const res =await fetch('/api/auth/google',{
+              method:"POST",
+              headers:{
+                'Content-Tyep':"Applicaton/json",
+              }
+              ,
+              body:JSON.stringify({username,email})
+
+            })
+          const data = res.json();
+          dispatch(signInSuccess(data.user));
+
+        }
+
+
+    } catch (error) {
+      dispatch(signInFailure(error.message));
+    }
+ }
   return (
     <div className="container-fuid mt-4 ">
       <div className="container m-auto border-primary">
@@ -116,7 +147,7 @@ function validatForm ( ) {
               <span className="text-black">OR</span>
             </div>
              <div className="inputbox mt-2 w-full   border   text-center  rounded-5 ">
-                <button  type="button" className="  google-button text-white button bg-success ">Sign in With Google</button>
+                <button type={"button"}  onClick={signInWithGoogle}  className="  google-button text-white button bg-success ">Sign in With Google</button>
             </div>
 
             <div className="d-flex justify-content-center align-item-center">
