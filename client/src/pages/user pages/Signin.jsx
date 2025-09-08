@@ -65,6 +65,8 @@ function validatForm ( ) {
           const data  = await res.json();
           if(!data.success){
             setError({...Error,errorMessage:data.message});
+             dispatch(signInFailure(data.message));
+            
             return;
           }
           dispatch(signInSuccess(data.user));
@@ -72,7 +74,7 @@ function validatForm ( ) {
           
         } catch (error) {
           setError({...Error,errorMessage:error.message});
-          console.log(error);
+         dispatch(signInFailure(error.message));
 
         }
     }
@@ -84,25 +86,29 @@ function validatForm ( ) {
         const resulte = await signInWithPopup(auth,provider);
         const  username = resulte.user.displayName.split(" ").join("");
         const email = resulte.user.email;
-
+        const evater = resulte.photoUrl;
       try {
+              dispatch(signInStart())
               const res = await fetch("/api/auth/google",{
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json'
                 },
-                body:JSON.stringify({username:username,email:email})
+                body:JSON.stringify({username:username,email:email,evater})
               })
               const data = await res.json();
               if(!data.success)
               {
                 setError({...Error,errorMessage:data.message});
+                dispatch(signInFailure(data.message));
                 return;
               }
               dispatch(signInSuccess(data.user));
               navigate("/")
       } catch (error) {
           setError({...Error,errorMessage:error.message});
+          dispatch(signInFailure(error.message));
+
       }
     
  }

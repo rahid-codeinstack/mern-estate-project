@@ -2,7 +2,11 @@ import "./Header.css"
 import { Link } from 'react-router-dom'
 import {MdSearch} from 'react-icons/md'
 
+
+
 function Header() {
+
+
   return (
     <div className="container-fluid header py-2  ">
      <div className="container nav-bar m-auto  d-flex justify-content-between align-items-center">

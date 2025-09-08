@@ -66,6 +66,7 @@ export async function  signIn(req,res,next) {
                        _id: valideUser._id,
                        email: valideUser.email,
                        username: valideUser.username,
+                       evater:valideUser.evater,
                   }
              })
 
@@ -99,8 +100,9 @@ function generatePassword(passLength){
  export async function  google(req,res,next) {
      const username = req.body.username;
      const email = req.body.email;
-     const user = await USER_MODEL.findOne({email});
+     const evater = req.body.evater;
 
+     const user = await USER_MODEL.findOne({email});
      if(user){
           const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
           res.status(200).cookie("access_token", token, {
@@ -117,12 +119,13 @@ function generatePassword(passLength){
                          _id:user._id,
                          email:user.email,
                          username:user.username,
+                         evater:user.evater,
                     }
                })
      }else{
           const newPassword = generatePassword(10);
           const hashPassword = hashSync(newPassword,10);
-          const newUser = new USER_MODEL({username,email,password:hashPassword});
+          const newUser = new USER_MODEL({username,email,password:hashPassword,evater:evater});
           newUser.save();
       
                const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
@@ -140,6 +143,7 @@ function generatePassword(passLength){
                          _id: newUser._id,
                          email: newUser.email,
                          username: newUser.username,
+                         evater:newUser.evater,
                     }
                })
           }
