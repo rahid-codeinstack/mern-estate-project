@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/test",verify,(req,res)=>res.json({message:"hellow world"}));
 router.post("/update",verify,updateUser);
 router.delete("/delete/:userid",verify,deleteUser);
-router.get("/api/user/signout/:userid",verify,signOutUser)
+router.get("/signout/:userid",verify,signOutUser)
 
 
 export default router;
