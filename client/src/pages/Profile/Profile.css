@@ -1,0 +1,14 @@
+.profile-container .profile-box .profile-image{
+     width: 100px;
+     height: 100px;
+
+     
+}
+.profile-container form .user-field{
+     outline: none;
+     border: none;
+     border-bottom: 2px solid rgb(93, 93, 93) !important;
+     border-radius: 2px ;
+
+     
+}
