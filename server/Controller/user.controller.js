@@ -32,3 +32,30 @@ export async function  updateUser(req,res,next) {
           }
      
 }
+
+// -------------------------------------------- delete user function ------------------------------------------ 
+
+
+export async function deleteUser(req,res,next) {
+     if(req.userid !== req.params.userid){
+          next(errorHandler(401,"you can delete your own account "));
+          return;
+     }
+     try {
+               const deletedUser = await USER_MODEL.deleteOne({_id:req.params.userid},{new:true});
+
+               if(deletedUser){
+                    req.clearCookie("access_token");
+                    res.status(200).json({
+                         message: "deleted successfully",
+                         statusCode: 200,
+                         success: true,
+
+                    })     
+               }
+     } catch (error) {
+          next(error);
+
+     }
+     
+}
