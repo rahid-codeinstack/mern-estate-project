@@ -1,14 +1,14 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Profile.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 function Profile() {
-  const [evater,setevater] = useState("");
   const {user} = useSelector(st=>st.user);
   const fileRef = useRef("");
   const [fileLoading , setfileLoading ] = useState(false);
   const [isUploaded , setisUploaded ] = useState(false);
+  const [profileData , setprofileData ] = useState(()=> user && {username:user.username , email:user.email , evater:user.evater , password:""});
   
   
   async function changeProfile (e){
@@ -26,7 +26,7 @@ function Profile() {
 
     })
     const data = await res.json();
-    setevater(data.url);
+    setprofileData({...profileData,evater:data.url});
     setfileLoading(false);
     setisUploaded(true);
     setTimeout(() => {
@@ -40,6 +40,19 @@ function Profile() {
   }
 
 
+  function ChangeField(e){
+      const value = e.target.value;
+      const key = e.target.id;
+      setprofileData({...profileData,[key]:value});
+
+  }
+
+  useEffect(() =>{
+    console.log(profileData);
+
+  },[profileData])
+
+
   return <div className="container-fluid">
     <div className="container m-auto my-4 ">
         <div className="profile-container bg-white  rounded-3 text-black d-flex flex-column justify-content-star align-items-start border borde-2 border-white m-auto p-2 py-5 w-50">
@@ -49,7 +62,7 @@ function Profile() {
                 <input hidden type="file" ref={fileRef} onChange={changeProfile} id="file" accept="jpg/*" />
                 <div className="image text-center">
                     {user  && 
-                      <img  onClick={()=>fileRef.current.click()} src={evater  ? evater : user.evater } className="m-auto profile-image rounded-pill" alt="profile" />  
+                      <img  onClick={()=>fileRef.current.click()} src={profileData.evater} className="m-auto profile-image rounded-pill" alt="profile" />  
                     }
                 </div>
                 <span className="text-black">
@@ -60,9 +73,9 @@ function Profile() {
             </div>
 
             <form className="user-field m-auto mt-3  w-75 d-flex justify-content-center align-items-center flex-column gap-2">
-                    <input type="text" className=" user-field p-2 d-block w-100 borde border-1 border-green  " id="username" placeholder="username" />
-                    <input type="email" className=" user-field p-2 d-block w-100 borde border-1 border-green  " id="email" placeholder="email" />
-                    <input type="password" className=" user-field p-2 d-block w-100 borde border-1 border-green  " placeholder="password" />
+                    <input type="text" onChange={ChangeField} value={profileData.username} className=" user-field p-2 d-block w-100 borde border-1 border-green  " id="username" placeholder="username" />
+                    <input type="email" onChange={ChangeField}  value={profileData.email} className=" user-field p-2 d-block w-100 borde border-1 border-green  " id="email" placeholder="email" />
+                    <input type="password" onChange={ChangeField}  value={profileData.password} className=" user-field p-2 d-block w-100 borde border-1 border-green  " placeholder="password" />
                      <div className="w-100 mt-3">
                       <button type="submit" className="update-profile-button text-bg-success mb-2 p-2 py-2 rounded-2 border-0 outline-0 w-100  ">UPDATE</button>
                       <Link to={'/create-listing'} className="w-100">
