@@ -127,7 +127,15 @@ function Profile() {
                             }
                         </div>
                      </div>
-
+                    <div className="w-100 py-1  d-flex justify-content-between align-items-center ">
+                       <button type="button" className="delet-button p-2 border-0 outline-none rounded-2 px-3 bg-danger text-white text-capitalize shadow-sm">
+                          Delete Account
+                      </button> 
+                       <button type="button" className="delet-button p-2 border-0 outline-none rounded-2 px-3 bg-danger text-white text-capitalize shadow-sm">
+                          Sign Out
+                      </button> 
+                      
+                    </div>
             </form>
           
 
