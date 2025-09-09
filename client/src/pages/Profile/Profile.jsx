@@ -1,16 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import "./Profile.css";
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { updateStart , updateFailure , updateSuccess  } from "../../Redux/userSlice";
+
 
 function Profile() {
-  const {user} = useSelector(st=>st.user);
+  const {user , Loading , Error } = useSelector(st=>st.user);
   const fileRef = useRef("");
   const [fileLoading , setfileLoading ] = useState(false);
   const [isUploaded , setisUploaded ] = useState(false);
+  const [sucessMessage , setsuccessMessage] = useState("");
   const [profileData , setprofileData ] = useState(()=> user && {username:user.username , email:user.email , evater:user.evater , password:""});
+  const dispatch = useDispatch();
   
-  
+  useEffect(()=>{console.log(user)},[user])
   async function changeProfile (e){
     const file = e.target.files[0];
 
@@ -47,12 +51,48 @@ function Profile() {
 
   }
 
-  useEffect(() =>{
-    console.log(profileData);
-
-  },[profileData])
 
 
+  async function updateUser(e) {
+      e.preventDefault();
+      const updatedUser = {
+          ...profileData,
+          id:user._id,
+      }
+      try {
+        dispatch(updateStart());
+        const res = await fetch('/api/user/update',{
+          method:"POST",
+          headers:{
+            'Content-Type':'application/json',
+          }
+          ,
+          body: JSON.stringify(updatedUser),
+
+        })
+        const data = await res.json();
+   
+        // console.log(data);
+
+        if(!data.success){
+          alert('faile')
+            dispatch(updateFailure(data.message));
+            return;
+        }
+     
+        dispatch(updateSuccess(data.user));
+          setsuccessMessage("updated successfully");
+          
+          setTimeout(() => {
+              setsuccessMessage('');
+          }, 2000);
+        
+      } catch (error) {
+        dispatch(updateFailure(error.message));
+
+      }
+    
+  }
   return <div className="container-fluid">
     <div className="container m-auto my-4 ">
         <div className="profile-container bg-white  rounded-3 text-black d-flex flex-column justify-content-star align-items-start border borde-2 border-white m-auto p-2 py-5 w-50">
@@ -72,15 +112,20 @@ function Profile() {
                 </span>
             </div>
 
-            <form className="user-field m-auto mt-3  w-75 d-flex justify-content-center align-items-center flex-column gap-2">
+            <form onSubmit={updateUser} className="user-field m-auto mt-3  w-75 d-flex justify-content-center align-items-center flex-column gap-2">
                     <input type="text" onChange={ChangeField} value={profileData.username} className=" user-field p-2 d-block w-100 borde border-1 border-green  " id="username" placeholder="username" />
                     <input type="email" onChange={ChangeField}  value={profileData.email} className=" user-field p-2 d-block w-100 borde border-1 border-green  " id="email" placeholder="email" />
-                    <input type="password" onChange={ChangeField}  value={profileData.password} className=" user-field p-2 d-block w-100 borde border-1 border-green  " placeholder="password" />
+                    <input type="password" onChange={ChangeField} id="password"  value={profileData.password} className=" user-field p-2 d-block w-100 borde border-1 border-green  " placeholder="password" />
                      <div className="w-100 mt-3">
                       <button type="submit" className="update-profile-button text-bg-success mb-2 p-2 py-2 rounded-2 border-0 outline-0 w-100  ">UPDATE</button>
                       <Link to={'/create-listing'} className="w-100">
                        <button type="button" className="update-profile-button p-2 rounded-2 border-0 outline-0 w-100 text-white  " style={{backgroundColor:"var( --slate-color)"}}>CREATE LISTING</button>
                       </Link>
+                        <div className="mt-3  text-center ">
+                            {
+                                Error ? <span className="text-danger text-sm text-capitalize">{Error}</span>:<span className="text-success text-sm text-capitalize">{sucessMessage}</span>
+                            }
+                        </div>
                      </div>
 
             </form>

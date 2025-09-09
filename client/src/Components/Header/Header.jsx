@@ -8,7 +8,7 @@ import { useSelector } from "react-redux"
 function Header() {
 const {user} = useSelector((st)=>st.user);
 
-
+console.log('from header ' , user );
   return (
     <div className="container-fluid header py-2  ">
      <div className="container nav-bar m-auto  d-flex justify-content-between align-items-center">
