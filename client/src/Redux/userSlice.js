@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";                                                                               
+import { createActionCreatorInvariantMiddleware, createSlice } from "@reduxjs/toolkit";                                                                               
 
 const initialState = {
      user:null,
@@ -43,9 +43,15 @@ const userSlice = createSlice({
                     state.Error = action.payload;
 
                }
+               ,
+                removeUser:function(state,action){
+                     state.user= action.payload;
+                     state.Loading = false;
+
+                }
      }
 })
 
 
-export const {signInStart , signInFailure , signInSuccess , updateStart , updateFailure , updateSuccess  } = userSlice.actions;
+export const { removeUser, signInStart , signInFailure , signInSuccess , updateStart , updateFailure , updateSuccess  } = userSlice.actions;
 export default userSlice.reducer;
