@@ -7,6 +7,7 @@ import About from "./pages/About/About";
 import SignUp from "./pages/user pages/Signup";
 import Profile from "./pages/Profile/Profile";
 import Header from "./Components/Header/Header";
+import Private from "./Components/private/Private";
 
 
 
@@ -19,7 +20,10 @@ function App() {
            <Route path="/sign-up" element={<SignUp/> } />
            <Route path="/sign-in" element={<SignIn/> } />
            <Route path="/about"   element={<About/>  } />
-           <Route path="/profile" element={<Profile/> } />
+           <Route element={<Private/>}>
+                <Route path="/profile" element={<Profile/> } />
+           </Route>
+         
 
       </Routes>
     </BrowserRouter>

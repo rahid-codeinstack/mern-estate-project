@@ -45,6 +45,12 @@
      
 
 }
+.header .nav-bar .profile-evater{
+     width: 40px;
+     height: 40px;
+     border-radius: 50%;
+
+}
 @media (max-width:757px) {
      .header .nav-bar{
           margin: auto !important;

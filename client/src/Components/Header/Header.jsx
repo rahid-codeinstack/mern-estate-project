@@ -1,10 +1,12 @@
 import "./Header.css"
 import { Link } from 'react-router-dom'
 import {MdSearch} from 'react-icons/md'
+import { useSelector } from "react-redux"
 
 
 
 function Header() {
+const {user} = useSelector((st)=>st.user);
 
 
   return (
@@ -22,7 +24,7 @@ function Header() {
                     <MdSearch className="text-2"/>
                 </button>
           </form>
-          <ul className="nav-item  flex-shrink-1 list-inline d-flex justify-content-center align-item-center p-0 m-0 gap-2 gap-md-2 gap-lg-3">
+          <ul className="nav-item  flex-shrink-1 list-inline d-flex justify-content-center   align-items-center p-0 m-0 gap-2 gap-md-2 gap-lg-3">
                <li className='nav-tabe d-none d-md-inline-block'>
                     <Link to={'/'} className='nav-link '>Home</Link>
                </li>
@@ -30,7 +32,12 @@ function Header() {
                     <Link to={'/about'} className='nav-link'>About</Link>
                </li>
                <li className='nav-tabe '>
-                    <Link to={'/sign-in'} className='nav-link'>Sign In </Link>
+                    <Link className="nav-link" to={'/profile'}>
+                              { 
+                                        user ? <img className="profile-evater" src={user.evater} alt="profile" />
+                                        : <span className="text-white nav-link">Sign In</span>
+                              }
+                    </Link>
                </li>
           </ul>
      </div>

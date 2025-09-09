@@ -88,7 +88,7 @@ function validatForm ( ) {
         const email = resulte.user.email;
         const evater = resulte.photoUrl;
       try {
-              dispatch(signInStart())
+              
               const res = await fetch("/api/auth/google",{
                 method:'POST',
                 headers:{
