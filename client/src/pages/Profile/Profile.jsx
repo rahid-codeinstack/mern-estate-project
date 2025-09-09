@@ -136,7 +136,7 @@ function Profile() {
   }
   return <div className="container-fluid">
     <div className="container m-auto my-4 ">
-        <div className="profile-container bg-white  rounded-3 text-black d-flex flex-column justify-content-star align-items-start border borde-2 border-white m-auto p-2 py-5 w-50">
+        <div className=" profile-container rounded-3 text-black d-flex flex-column justify-content-start align-items-start m-auto p-2 py-5 ">
 
 
             <div className="profile-box border border-white m-auto  d-flex justify-content-center align-items-center flex-column">
@@ -169,10 +169,10 @@ function Profile() {
                         </div>
                      </div>
                     <div className="w-100 py-1  d-flex justify-content-between align-items-center ">
-                       <button onClick={DeleteAccount} type="button" className="delet-button p-2 border-0 outline-none rounded-2 px-3 bg-danger text-white text-capitalize shadow-sm">
+                       <button onClick={DeleteAccount} type="button" className="delete-button p-2 border-0 outline-none rounded-2 px-3 bg-danger text-white text-capitalize shadow-sm">
                           Delete Account
                       </button> 
-                       <button onClick={signOutUser} type="button" className="delet-button p-2 border-0 outline-none rounded-2 px-3 bg-danger text-white text-capitalize shadow-sm">
+                       <button onClick={signOutUser} type="button" className=" signout-button p-2 border-0 outline-none rounded-2 px-3 bg-danger text-white text-capitalize shadow-sm">
                           Sign Out
                       </button> 
                       
