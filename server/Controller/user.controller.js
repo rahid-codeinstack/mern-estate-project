@@ -59,3 +59,17 @@ export async function deleteUser(req,res,next) {
      }
      
 }
+
+export async function signOutUser(req,res,next) {
+     const userid = req.params.userid;
+     if(userid !== req.userid){
+          next(errorHandler(401,'you can signOut your  own accoutn '));
+          return;
+     }
+     res.clearCookie("access_token");
+     res.status(200).json({
+          sucess:true,
+          message:'sign out sucessfully',
+          success:true,
+     })
+}
