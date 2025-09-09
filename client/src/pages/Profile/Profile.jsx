@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "./Profile.css";
 import { useSelector , useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { updateStart , updateFailure , updateSuccess  } from "../../Redux/userSlice";
+import { updateStart , updateFailure , updateSuccess  , deleteUser , deleteFailure  } from "../../Redux/userSlice";
 
 
 function Profile() {
@@ -95,8 +95,26 @@ function Profile() {
   }
 
 
-  function DeleteAccount(){
-    alert("hellow world i can delet your acccount ")
+   async function DeleteAccount(){
+      const userid = user._id;
+      try {
+          const res = await fetch('/api/user/delete/'+userid,{
+            method:"DELETE",
+            headers:{
+                'Content-Type':'application/json'
+            }
+            
+          })
+          const data = await res.json();
+          if(!data.success){
+            dispatch(deleteFailure(data.message));
+            return;
+          }
+          dispatch(deleteUser(null)); 
+          
+      } catch (error) {
+          dispatch(deleteFailure(error.message))
+      }
   }
   return <div className="container-fluid">
     <div className="container m-auto my-4 ">

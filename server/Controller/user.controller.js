@@ -45,7 +45,7 @@ export async function deleteUser(req,res,next) {
                const deletedUser = await USER_MODEL.deleteOne({_id:req.params.userid},{new:true});
 
                if(deletedUser){
-                    req.clearCookie("access_token");
+                    res.clearCookie("access_token");
                     res.status(200).json({
                          message: "deleted successfully",
                          statusCode: 200,
