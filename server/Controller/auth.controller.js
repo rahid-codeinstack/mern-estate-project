@@ -55,7 +55,7 @@ export async function  signIn(req,res,next) {
                     httpOnly:true,
                     maxAge: 1000 * 60 * 60 * 24 * 3 
                     ,
-                    secure:true,
+                    
 
              })
             .json({
@@ -109,7 +109,7 @@ function generatePassword(passLength){
                httpOnly: true,
                maxAge: 1000 * 60 * 60 * 24 * 3
                ,
-               secure: true,
+              
 
           }).json({
                     success: true,

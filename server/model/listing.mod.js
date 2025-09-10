@@ -11,8 +11,9 @@ const listingSchema = mongoose.Schema({
      bed: { type: Number, required: true , default:1 },
      bath: { type: Number, required: true , default:0 },
      regularPrice: { type: Number, required: true  },
-     descountPrice: { type: Number, required: true  },
-     images: { type:[String], required: true },      
+     discountPrice: { type: Number, required: true  },
+     images: { type:[String], required: true }, 
+     userid:{type:mongoose.Schema.ObjectId,required:true , ref:"UserModel"}     
 },{timestamp:true})
 
 

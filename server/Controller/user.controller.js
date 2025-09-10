@@ -1,4 +1,5 @@
 
+import LISTING_MODEL from "../model/listing.mod.js";
 import USER_MODEL from "../model/user.model.js";
 import errorHandler from "../utils/errorHandler.js";
 export async function  updateUser(req,res,next) {
@@ -72,4 +73,48 @@ export async function signOutUser(req,res,next) {
           message:'sign out sucessfully',
           success:true,
      })
+}
+
+
+
+// ------------------------------------------ user create listing function ------------------------------------ 
+
+
+export async function createListing(req,res,next) {
+          const body = req.body;
+       
+          if(!req.userid){
+               next(errorHandler(401 , 'unauthorize to create listing please sign in  '));
+               return;   
+          }
+          if(
+               !req.body.name || !req.body.description || !req.body.address  ||
+               !req.body.type  || !req.body.regularPrice  || 
+               req.body.images.length < 0  || req.body.bed === 0 
+           ){
+
+               next(errorHandler(409,' form all field required when create listing '));
+               return;
+           }
+           if(req.body.offer === true && req.body.discountPrice === 0 ){
+               
+               next(errorHandler(409,'form all field required when create listing '));
+               return;
+           }
+           req.body.userid = req.userid;
+          try {
+                    const newListing = new LISTING_MODEL(req.body);
+                    await newListing.save();
+                         res.status(201).json({
+                              message:"created sucessfully ",
+                              statusCode:201,
+                              success:true,
+                              listing:newListing,
+                         })
+          } catch (error) {
+                    next(error);
+          }
+
+     
+     
 }
