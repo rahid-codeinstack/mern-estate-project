@@ -142,7 +142,21 @@ export async function createListing(req,res,next) {
 
 
 export async function  allUserListing(req,res,next) {
-     const listingId = req.params.id;
+     if(req.params.userid !== req.userid){
+          next(errorHandler(401,'unauthorize you can see your own listing '));
+          return;
+     }
      
+     try {
+          const userListings = await LISTING_MODEL.find({userid:req.params.userid});
+          res.status(200).json({
+               success:true,
+               statusCode:200,
+               message:'get all user listing ',
+               userlistings:userListings,
+          })
+     } catch (error) {
+          next(error);
+     }
      
 }

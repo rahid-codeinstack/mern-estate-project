@@ -20,7 +20,7 @@ router.post("/update",verify,updateUser);
 router.delete("/delete/:userid",verify,deleteUser);
 router.get("/signout/:userid",verify,signOutUser);
 router.post("/create-listing", verify ,createListingLimit , createListing );
-router.get("/user/all-listing", verify , allUserListing);
+router.get("/user/all-listing/:userid", verify , allUserListing);
 
 
 
