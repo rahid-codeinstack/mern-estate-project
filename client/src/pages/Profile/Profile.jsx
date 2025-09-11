@@ -157,16 +157,17 @@ function Profile() {
                     <input type="text" onChange={ChangeField} value={profileData.username} className=" user-field p-2 d-block w-100 borde border-1 border-green  " id="username" placeholder="username" />
                     <input type="email" onChange={ChangeField}  value={profileData.email} className=" user-field p-2 d-block w-100 borde border-1 border-green  " id="email" placeholder="email" />
                     <input type="password" onChange={ChangeField} id="password"  value={profileData.password} className=" user-field p-2 d-block w-100 borde border-1 border-green  " placeholder="password" />
-                     <div className="w-100 mt-3">
-                      <button type="submit" className="update-profile-button text-bg-success mb-2 p-2 py-2 rounded-2 border-0 outline-0 w-100  ">UPDATE</button>
+                     <div className="w-100 mt-3 d-flex justify-content-center align-items-center gap-1 flex-column">
+                      <button type="submit" className="update-profile-button text-bg-success  p-2 py-2 rounded-2 border-0 outline-0 w-100  ">UPDATE</button>
+
                       <Link to={'/create-listing'} className="w-100">
                        <button type="button" className="update-profile-button p-2 rounded-2 border-0 outline-0 w-100 text-white  " style={{backgroundColor:"var( --slate-color)"}}>CREATE LISTING</button>
                       </Link>
-                        <div className="mt-3  text-center ">
-                            {
-                                Error ? <span className="text-danger text-sm text-capitalize">{Error}</span>:<span className="text-success text-sm text-capitalize">{sucessMessage}</span>
-                            }
-                        </div>
+
+                      <Link to={'/user-listing'} className="w-100">
+                       <button type="button" className="update-profile-button p-2 rounded-2 border border-secondary btn  outline-0 w-100 text-secondary fw-bold   " >SHOW LISTING</button>
+                      </Link>
+                     
                      </div>
                     <div className="w-100 py-1  d-flex justify-content-between align-items-center ">
                        <button onClick={DeleteAccount} type="button" className="delete-button p-2 border-0 outline-none rounded-2 px-3 bg-danger text-white text-capitalize shadow-sm">
@@ -177,6 +178,11 @@ function Profile() {
                       </button> 
                       
                     </div>
+                        <div className="mt-3  text-center ">
+                            {
+                                Error ? <span className="text-danger text-sm text-capitalize">{Error}</span>:<span className="text-success text-sm text-capitalize">{sucessMessage}</span>
+                            }
+                        </div>
             </form>
           
 

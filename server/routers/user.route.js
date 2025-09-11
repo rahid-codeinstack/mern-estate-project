@@ -1,7 +1,7 @@
 import express from 'express';
 import { verify } from '../utils/verify.js';
 import {rateLimit} from 'express-rate-limit'
-import {updateUser , deleteUser, signOutUser , createListing} from '../Controller/user.controller.js';
+import {updateUser , deleteUser, signOutUser , createListing , allUserListing} from '../Controller/user.controller.js';
 import errorHandler from '../utils/errorHandler.js';
 
 const router = express.Router();
@@ -20,6 +20,8 @@ router.post("/update",verify,updateUser);
 router.delete("/delete/:userid",verify,deleteUser);
 router.get("/signout/:userid",verify,signOutUser);
 router.post("/create-listing", verify ,createListingLimit , createListing );
+router.get("/user/all-listing", verify , allUserListing);
+
 
 
 export default router;

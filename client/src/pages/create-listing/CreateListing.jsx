@@ -81,7 +81,7 @@ function handleDeletFile(deletFile){
                setListingError("listing  form field required " );
                return;
      }
-     if(listingData.bed || !listingData.bath || listingData.furnished === undefined || listingData.parking === undefined){
+     if(!listingData.bed || (listingData.bath === undefined ||  listingData.bath < 0  || listingData.bath == null) || listingData.furnished === undefined || listingData.parking === undefined){
           setListingError("listing form all field required " );
           return;
      }
@@ -89,7 +89,7 @@ function handleDeletFile(deletFile){
           setListingError(" listting form all field requird " );
           return;
      }
-     if( listingData.type === 'rent' && listingData.regularPrice >" 15000" ) {
+     if( listingData.type === 'rent' && listingData.regularPrice >= 1500 ) {
                setListingError(" add regular price  atleast 1500 dollar " );
                return;
      }
@@ -135,7 +135,7 @@ function handleDeletFile(deletFile){
                setListingError(data.message);
                return; 
           }
-          navigate("/user-listing " );
+          navigate("/user-listing" );
      } catch (error) {
           setListingError(error.message);
 

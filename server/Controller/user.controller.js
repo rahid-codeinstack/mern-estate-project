@@ -135,3 +135,14 @@ export async function createListing(req,res,next) {
      
      
 }
+
+
+
+// -------------------------------------------------------- get all user listing function ---------------------------------------------
+
+
+export async function  allUserListing(req,res,next) {
+     const listingId = req.params.id;
+     
+     
+}
