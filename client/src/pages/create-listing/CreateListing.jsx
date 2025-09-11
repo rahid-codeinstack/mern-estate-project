@@ -77,15 +77,27 @@ function handleDeletFile(deletFile){
 
 }
  async function handlePostListing(){
-     listingData.regularPrice=Number(listingData.regularPrice);
-     listingData.discountPrice=Number(listingData.discountPrice);
-     listingData.bed=Number(listingData.bed);
-     listingData.bath=Number(listingData.bath);
+     if(!listingData.name || !listingData.description || !listingData.type ){
+               setListingError("listing  form field required " );
+               return;
+     }
+     if(listingData.bed || !listingData.bath || listingData.furnished === undefined || listingData.parking === undefined){
+          setListingError("listing form all field required " );
+          return;
+     }
+     if((listingData.regularPrice === null || undefined)  ){
+          setListingError(" listting form all field requird " );
+          return;
+     }
+     if( listingData.type === 'rent' && listingData.regularPrice >" 15000" ) {
+               setListingError(" add regular price  atleast 1500 dollar " );
+               return;
+     }
      if(listingData.bed < 1){
      setListingError('atleast one bed required in listing ');
      return;
      }
-     if(listingData.offer && listingData.discountPrice > listingData.regularPrice){
+     if(listingData.offer && listingData.discountPrice >= listingData.regularPrice){
           setListingError("discount price must less to the regularPrice");
           return;   
      }
@@ -121,9 +133,9 @@ function handleDeletFile(deletFile){
           const data  = await res.json();
           if(!data.success){
                setListingError(data.message);
-               return;
+               return; 
           }
-          navigate("listing/"+data.listing._id);
+          navigate("/user-listing " );
      } catch (error) {
           setListingError(error.message);
 
@@ -225,7 +237,8 @@ function handleDeletFile(deletFile){
                              <span> {ListingError}</span>
                              <button onClick={()=>setListingError("")} type="button" class=" btn btn-close " aria-label="Close"></button> 
                          </div>
-                         
+                              
+                    
                     }
                </div>
 

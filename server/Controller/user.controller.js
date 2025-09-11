@@ -81,10 +81,27 @@ export async function signOutUser(req,res,next) {
 
 
 export async function createListing(req,res,next) {
-          const body = req.body;
        
+        
+          const listing = {
+                    name:req.body.name,
+                    description:req.body.description,
+                    type:req.body.type,
+                    address:req.body.address,
+                    bed:Number(req.body.bed),
+                    bath:Number(req.body.bath),
+                    regularPrice:Number(req.body.regularPrice),
+                    discountPrice:Number(req.body.discountPrice),
+                    images:req.body.images,
+                    parking:Boolean(req.body.parking),
+                    furnished:Boolean(req.body.furnished),
+
+                    
+          }
+     
+
           if(!req.userid){
-               next(errorHandler(401 , 'unauthorize to create listing please sign in  '));
+               next(errorHandler(401 , ' you can create your own listing  '));
                return;   
           }
           if(
@@ -101,9 +118,9 @@ export async function createListing(req,res,next) {
                next(errorHandler(409,'form all field required when create listing '));
                return;
            }
-           req.body.userid = req.userid;
+          listing.userid = req.userid;
           try {
-                    const newListing = new LISTING_MODEL(req.body);
+                    const newListing = new LISTING_MODEL(listing);
                     await newListing.save();
                          res.status(201).json({
                               message:"created sucessfully ",
