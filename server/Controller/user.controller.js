@@ -197,3 +197,38 @@ export  async function  deleteListing(req,res,next){
      }
 
 }
+
+
+
+
+
+
+
+// --------------------------------------- update user listing ------------------------------------------------
+
+
+export async function UpdateListing (  req , res , next  ){
+     const listingId = req.params.listingid;  
+     if(req.body.userid !== req.userid){
+          next(401 , 'you can update your awn listing ');
+          return;
+     }
+   
+     try {
+          const updatedlisting = await LISTING_MODEL.findByIdAndUpdate(listingId,{
+                    $set:{...req.body}
+          },{new:true});
+          console.log(updatedlisting);
+          if(UpdateListing){
+               res.status(200).json({
+                    message:'updated successfully',
+                    status:200,
+                    success:true,
+                    listing:updatedlisting,
+               })
+          }
+     } catch (error) {
+          next(error);
+
+     }
+}

@@ -6,59 +6,77 @@ import { useParams } from "react-router-dom";
 
 function UpdateListing() {
 const {listingid} =useParams();
-const [listing , setlisting] = useState( [] );
 const [error ,  seterror ] = useState( "" );
+const [loading , setloading ] = useState(false);
 
- useEffect(  ( ) => {
-          if(listingid){
-             async   function getlisting(){
-                    try {
-                              const res = await fetch("/api/listing/getlisting");
-                              const data = res.json();
-                              if(!data.success){
-                                   seterror(data.message);
-                                   return;
+const [listingData, setlistingData] = useState(  {
+        name:"",
+        description: "",
+        address: "",
+        type: "rent",
+        parking: false,
+        bath: 0,
+        bed: 1,
+        furnished: false,
+        offer: false,
+        images: [],
+        regularPrice: "50",
+        discountPrice: "0",
+      });
 
-                              }
-                         setlisting(data.listing);
-                         
-                    } catch (error) {
-                         seterror(error.message);
-
-                    }
-              }
-              getlisting();
-          }
- } , []  );
-  const [listingData, setlistingData] = useState({
-    name: "",
-    description: "",
-    address: "",
-    type: "rent",
-    parking: false,
-    bath: 0,
-    bed: 1,
-    furnished: false,
-    offer: false,
-    images: [],
-    regularPrice: "50",
-    discountPrice: "0",
-  });
   
+
   const [FileData, setFileData] = useState({
     FileUploading: false,
     FileError: "",
     Files: {},
   });
+
+
   const [ListingError, setListingError] = useState("");
   const [ListingLoading, setListingLoading] = useState(false);
   const navigate = useNavigate(null);
+
+
+
+
+   useEffect(() => {
+     if (listingid) {
+       async function getlisting() {
+         try {
+          setloading(true);
+           const res = await fetch("/api/listing/getlisting/" + listingid);
+           const data = await res.json();
+           if (!data.success) {
+             seterror({message:data.message,status:data.stautsCode});
+             return;
+           }
+            setloading(false);
+           setlistingData(data.listing)
+          
+         } catch (error) {
+               seterror({message:error.message,status:error.statusCode});
+               setloading(false);
+         }
+       }
+       getlisting();
+     }
+   }, []);
+
+
+
 
   useEffect(() => {
     if (FileData.Files.length + listingData.images.length - 1 <= 5) {
       setFileData({ ...FileData, FileError: "" });
     }
   }, [FileData.Files]);
+
+
+
+
+
+
   function handleUploadFile() {
     if (FileData.Files.length - 1 < 0 || FileData.Files == {}) {
       setFileData({ ...FileData, FileError: "select your file " });
@@ -97,6 +115,14 @@ const [error ,  seterror ] = useState( "" );
         setFileData({ ...FileData, FileError: err.messag });
       });
   }
+
+
+
+
+
+
+
+
   async function createFilePromise(File) {
     return new Promise((resolve, reject) => {
       const fileData = new FormData();
@@ -114,13 +140,24 @@ const [error ,  seterror ] = useState( "" );
         });
     });
   }
+
+
+
+
   function handleDeletFile(deletFile) {
     const filterFile = listingData.images.filter((file) => {
       return file !== deletFile;
     });
     setlistingData((prev) => ({ ...prev, images: filterFile }));
   }
-  async function handlePostListing() {
+
+
+
+
+
+
+
+  async function handleUpdateListing() {
     if (!listingData.name || !listingData.description || !listingData.type) {
       setListingError("listing  form field required ");
       return;
@@ -179,23 +216,82 @@ const [error ,  seterror ] = useState( "" );
     }
     try {
       setListingLoading(true);
-      const res = await fetch("/api/user/create-listing", {
-        method: "POST",
+      const res = await fetch("/api/user/updatelisting/"+listingid, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(listingData),
+        body: JSON.stringify({
+               name: listingData.name,
+               description: listingData.description,
+               type: listingData.type,
+               userid: listingData.userid,
+               bed: listingData.bed,
+               bath: listingData.bath,
+               furnished: listingData.furnished,
+               parking: listingData.parking,
+               images: listingData.images,
+               offer: listingData.offer,
+               regularPrice: listingData.regularPrice,
+               discountPrice: listingData.discountPrice,
+               discountPrice: listingData.discountPrice,
+        }),
       });
       const data = await res.json();
+   
       if (!data.success) {
         setListingError(data.message);
+        setListingLoading(false);
         return;
       }
+
       navigate("/user-listing");
+
     } catch (error) {
       setListingError(error.message);
+      setListingLoading(false);
     }
   }
+
+
+  if(loading === true){
+    return <div className="constinaer-fluid">
+          <div className="container mt-5 text-center">
+              
+          <button
+               class="btn bg-white py-5 text-center text-black w-25"
+               type="button"
+               disabled
+               
+          >
+               <span
+                    class="spinner-border spinner-border h2"
+                    role="status"
+                    aria-hidden="true"
+               ></span>
+               Loading...
+          </button>
+          
+               
+          </div>
+     </div>
+  }
+
+  if(error){
+    return <div className="constinaer-fluid">
+          <div className="container mt-5 text-center">
+               <div
+                    class="alert alert-danger "
+                    role="alert"
+               >
+                    <div className="alert-heading h3">{error.status}</div>
+                    <p>{error.message}</p>
+               </div> 
+          </div>
+     </div>
+  }
+  
+
   return (
     <div className="container ">
       <div className="container listing-container rounded-2 w-75 mt-4 bg-white p-3 py-6 d-flex gap-4 justify-content-center align-items-center flex-column ">
@@ -465,7 +561,7 @@ const [error ,  seterror ] = useState( "" );
 
         <div className="w-100 text-center mt-3">
           <button
-            onClick={handlePostListing}
+            onClick={handleUpdateListing}
             className="w-75 btn p-2 rounded-2 text-white "
             style={{ backgroundColor: "var(--slate-color)" }}
           >
@@ -474,7 +570,7 @@ const [error ,  seterror ] = useState( "" );
                 <span className="visually-hidden"></span>
               </div>
             ) : (
-              "CREATE"
+               "UPDATE"
             )}
           </button>
         </div>

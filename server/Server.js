@@ -4,6 +4,8 @@ import cookieParser from 'cookie-parser';
 import { connectDataBase } from './DB/connection.js';
 import authRouter from './routers/auth.route.js'
 import userRouter from './routers/user.route.js';
+import listingRouter from './routers/listing.route.js';
+
 dotenv.config();
 
 const app = express();
@@ -17,6 +19,8 @@ app.use(cookieParser());
 // ------------------------------------- route middlware section ---------------------------------------------
 app.use('/api/auth' , authRouter);
 app.use('/api/user',userRouter);
+app.use('/api/listing',listingRouter);
+
 
 // -------------------------------------- test route ---------------------------------------------------------
 app.get( "/test", ( req  , res ) => {
