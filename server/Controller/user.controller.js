@@ -1,4 +1,5 @@
 
+
 import LISTING_MODEL from "../model/listing.mod.js";
 import USER_MODEL from "../model/user.model.js";
 import errorHandler from "../utils/errorHandler.js";
@@ -174,7 +175,25 @@ export async function  allUserListing(req,res,next) {
 
 // --------------------------------------------------- delete listing --------------------------------------------
 
-export function  deleteListing(req,res,next){
-     const deleteid = req.params.userid;
-     
+export  async function  deleteListing(req,res,next){
+     const listingId = req.params.listingid;
+     const listing = await LISTING_MODEL.findOne({_id:listingId});
+     // if(listing.userid !== req.userid){
+     //      next(errorHandler(401 , 'you can delete your own listing '));
+     // return;
+     // }
+
+     try {
+          console.log('hellow world')
+       const DeleteListing = await LISTING_MODEL.findByIdAndDelete(listingId);
+          res.status(200).json({
+               message:"listing deleted sucessfully",
+               statusCode:200,
+               success:true,
+          
+          })
+     } catch (error) {
+          next(error);    
+     }
+
 }

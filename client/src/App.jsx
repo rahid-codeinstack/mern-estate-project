@@ -10,6 +10,7 @@ import Header from "./Components/Header/Header";
 import Private from "./Components/private/Private";
 import CreateListing from "./pages/create-listing/CreateListing";
 import UserListing from "./pages/userLisiting/userListing";
+import UpdateListing from "./pages/update-listing/UpdateListing";
 
 
 
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/profile" element={<Profile/> } />
                 <Route path="/create-listing" element={<CreateListing/>}/>
                 <Route path="/user-listing" element={<UserListing /> } /> 
+                <Route path="/update-listing/:listingid" element={<UpdateListing /> } /> 
            </Route>
          
 

@@ -79,6 +79,33 @@ export default function UserListing (     ) {
               setListingError(error.message);   
           }
      }
+
+
+      async function handleDeleteListing (listingId) { 
+        alert(listingId);
+        try {
+          const res = await fetch( `/api/user/deletelisting/${listingId}`,
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const data = await res.json();
+          if(!data.success){
+            listingError(data.message);
+            return;
+          }
+        
+          const filterListing = listing.filter((list,index)=>{
+            return list._id !== listingId;
+          })
+          setlisting(filterListing);
+        } catch (error) {
+          setListingError(error.message);   
+        }
+     }
    
      
      return (
@@ -123,8 +150,15 @@ export default function UserListing (     ) {
                          <span>{list.name}</span>
                        </Link>
                        <div className="d-flex justify-content-start  align-items-center gap-2 flex-wrap flex-md-nowrap">
-                         <button className="btn btn-danger ">delete</button>
-                         <button className="btn btn-success">update</button>
+                         <button
+                           onClick={() => handleDeleteListing(list._id)}
+                           className="btn btn-danger "
+                         >
+                           delete
+                         </button>
+                         <Link to={"/update-listing/" + list._id}>
+                           <button className="btn btn-success">update</button>
+                         </Link>
                        </div>
                      </div>
                    );

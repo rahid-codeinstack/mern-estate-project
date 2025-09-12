@@ -21,7 +21,7 @@ router.delete("/delete/:userid",verify,deleteUser);
 router.get("/signout/:userid",verify,signOutUser);
 router.post("/create-listing", verify ,createListingLimit , createListing );
 router.get("/all-listing/:userid",verify, allUserListing);
-router.delete("/delete/userlisting/:userid", verify , deleteListing)
+router.delete("/deletelisting/:listingid",deleteListing)
 
 
 
