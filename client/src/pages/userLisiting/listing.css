@@ -1,0 +1,13 @@
+.user-listing .listing-image{
+     width: 100px;
+     height: 100px;
+     border-radius: 10px;
+
+}
+.user-listing .listing-name{
+     display: flex;
+     justify-content: start !important;
+     align-items: center;
+   
+    
+}

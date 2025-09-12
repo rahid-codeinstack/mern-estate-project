@@ -142,21 +142,39 @@ export async function createListing(req,res,next) {
 
 
 export async function  allUserListing(req,res,next) {
+
+     const listingLimite = req.query.listingLimite;
+     const skipLimite = req.query.skipLimite;
      if(req.params.userid !== req.userid){
           next(errorHandler(401,'unauthorize you can see your own listing '));
           return;
      }
-     
+     const listingLenth = await LISTING_MODEL.countDocuments({userid:req.params.userid}); 
+     const totalButtonLength = listingLenth > 5  ? Math.ceil(listingLenth / 5)  : 1;
+
      try {
-          const userListings = await LISTING_MODEL.find({userid:req.params.userid});
+          const userListings = await LISTING_MODEL.find({userid:req.params.userid}).limit(listingLimite).skip(skipLimite)
           res.status(200).json({
                success:true,
                statusCode:200,
                message:'get all user listing ',
                userlistings:userListings,
+               totalbuttonlength:totalButtonLength,
           })
      } catch (error) {
           next(error);
      }
+     
+}
+
+
+
+
+
+
+// --------------------------------------------------- delete listing --------------------------------------------
+
+export function  deleteListing(req,res,next){
+     const deleteid = req.params.userid;
      
 }
