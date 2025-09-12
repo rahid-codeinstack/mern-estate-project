@@ -7,7 +7,29 @@ import { useParams } from "react-router-dom";
 function UpdateListing() {
 const {listingid} =useParams();
 const [listing , setlisting] = useState( [] );
- 
+const [error ,  seterror ] = useState( "" );
+
+ useEffect(  ( ) => {
+          if(listingid){
+             async   function getlisting(){
+                    try {
+                              const res = await fetch("/api/listing/getlisting");
+                              const data = res.json();
+                              if(!data.success){
+                                   seterror(data.message);
+                                   return;
+
+                              }
+                         setlisting(data.listing);
+                         
+                    } catch (error) {
+                         seterror(error.message);
+
+                    }
+              }
+              getlisting();
+          }
+ } , []  );
   const [listingData, setlistingData] = useState({
     name: "",
     description: "",
