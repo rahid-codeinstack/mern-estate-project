@@ -28,3 +28,61 @@ export async function getListing(req,res,next){
 
      }
 }
+
+
+
+// ------------------------------------------------------- find listing function ------------------------------------------- ;
+export async function FindListing(req,res,next) {
+    
+     const limite = req.query.limite || 9 ;
+     const startIndex = req.query.startindex || 0;
+     const order = req.query.order || 'desc';
+      let  sort = req.query.sort || "createdate";
+     let  searchterm = req.query.searchterm;
+
+
+     let  furnished = req.query.furnished;
+     if(furnished === undefined || furnished === 'false' ){
+          furnished = {$in:[true,false]}
+     }
+
+     let  parking = req.query.parking;
+     if(parking === undefined || parking === 'false' ){
+          parking = {$in:[true,false]}
+     }
+
+     let  type = req.query.type;
+     console.log(type);
+     if(type === undefined || type === 'all')
+     {
+          type={$in:['rent','sale']}
+     }
+
+      let  offer = req.query.offer;
+     if(offer === undefined || offer === 'false'){
+          offer = {$in:[true,false]},
+          furnished,
+          parking,
+          type
+     }
+
+    
+
+ console.log(type);
+     
+     try {
+     const listings = await LISTING_MODEL.find({
+          name:{$regex:searchterm,$options:'i'},
+          type,
+          offer,
+          parking,
+          furnished
+
+     }).sort({[sort]:order}).limit(limite).skip(startIndex);
+     res.send(listings);
+     } catch (error) {
+          next(error);
+     }
+
+     
+}
