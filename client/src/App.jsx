@@ -12,6 +12,8 @@ import CreateListing from "./pages/create-listing/CreateListing";
 import UserListing from "./pages/userLisiting/userListing";
 import UpdateListing from "./pages/update-listing/UpdateListing";
 import Listing from "./pages/Listing/Listing";
+import Search from "./pages/search/Search";
+
 
 
 
@@ -26,6 +28,7 @@ function App() {
            <Route path="/sign-in" element={<SignIn/> } />
            <Route path="/about"   element={<About/>  } />
            <Route path="/listing/:listid" element={<Listing/>}/>
+           <Route path="/search" element={<Search />} />
            <Route element={<Private/>}>
                 <Route path="/profile" element={<Profile/> } />
                 <Route path="/create-listing" element={<CreateListing/>}/>
