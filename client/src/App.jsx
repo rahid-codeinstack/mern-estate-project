@@ -11,6 +11,7 @@ import Private from "./Components/private/Private";
 import CreateListing from "./pages/create-listing/CreateListing";
 import UserListing from "./pages/userLisiting/userListing";
 import UpdateListing from "./pages/update-listing/UpdateListing";
+import Listing from "./pages/Listing/Listing";
 
 
 
@@ -24,6 +25,7 @@ function App() {
            <Route path="/sign-up" element={<SignUp/> } />
            <Route path="/sign-in" element={<SignIn/> } />
            <Route path="/about"   element={<About/>  } />
+           <Route path="/listing/:listid" element={<Listing/>}/>
            <Route element={<Private/>}>
                 <Route path="/profile" element={<Profile/> } />
                 <Route path="/create-listing" element={<CreateListing/>}/>

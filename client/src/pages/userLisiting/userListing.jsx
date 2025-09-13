@@ -145,7 +145,7 @@ export default function UserListing (     ) {
                        </Link>
                        <Link
                          className="listing-name w-100 px-2"
-                         to={"/lsting/" + list._id}
+                         to={"/listing/" + list._id}
                        >
                          <span>{list.name}</span>
                        </Link>
