@@ -17,6 +17,9 @@
   background-color:var(--slate-color) !important;
   color: white !important;
 
+  
+
+
 }
 
 .button{
@@ -25,4 +28,59 @@
   width: 100%;
   outline: none;
   border: none;
+}
+.listing-card{
+  border-end-end-radius: 8px;
+  border-start-start-radius: 8px;
+  background-color:white;
+
+
+}
+.card-container{
+  height: 368px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.listing-card{
+  transition: all .30s linear;
+
+}
+.card-container a{
+  text-decoration: none;
+  color: black;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.listing-card .card-image{
+  width: 100%;
+    overflow: hidden;
+    height: 200px;
+
+}
+.listing-card .card-image img{
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+
+}
+.listing-card .card-description{
+  font-size: 15px;
+  word-break: break-all;
+  line-height: 1.2;
+}
+
+.listing-card:hover{
+    scale: 102%;
+    background-color: rgb(247, 245, 245);
+    color: rgb(0, 0, 0);
+
+
+}
+@media (max-width:785px) {
+  .card-container{
+    overflow:visible;
+    height: auto;
+
+  }
+  
 }

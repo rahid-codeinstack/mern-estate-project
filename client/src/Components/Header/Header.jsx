@@ -2,13 +2,41 @@ import "./Header.css"
 import { Link } from 'react-router-dom'
 import {MdSearch} from 'react-icons/md'
 import { useSelector } from "react-redux"
+import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 
 function Header() {
 const {user} = useSelector((st)=>st.user);
+const [searchTerm , setsearchTerm ] = useState("");
+const navigate = useNavigate();
 
-console.log('from header ' , user );
+
+
+
+function handleSubmiteSearchQuery(e){
+     e.preventDefault();
+  
+       const searchParams = new URLSearchParams(location.search);
+       searchParams.set("searchterm", searchTerm);
+       const searchQuery = searchParams.toString();
+       navigate("/search/?" + searchQuery);
+
+}
+
+useEffect(() => {
+  const searchParams = new URLSearchParams(location.search);
+  const searchParamsFromUrl = searchParams.get("searchterm");
+  if (searchParamsFromUrl) {
+     alert("hellow world rahidkhan")
+    setsearchTerm(searchParamsFromUrl);
+  }
+}, [location.search]);
+
+
+
   return (
     <div className="container-fluid header py-2  ">
      <div className="container nav-bar m-auto  d-flex justify-content-between align-items-center">
@@ -18,8 +46,8 @@ console.log('from header ' , user );
                     <span className="last-name">Estate</span>
                </h3>
           </div>
-          <form  className="search-form flex-shrink-1  ">
-                <input type="text" placeholder="search" className="search-input   px-1 " />
+          <form  onSubmit={handleSubmiteSearchQuery}  className="search-form flex-shrink-1  ">
+                <input onChange={(e)=>setsearchTerm(e.target.value)} value={searchTerm} type="text" placeholder="search" className="search-input   px-1 " />
                 <button className='search-button'>
                     <MdSearch className="text-2"/>
                 </button>

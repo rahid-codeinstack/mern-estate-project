@@ -1,0 +1,19 @@
+.search-container{
+background-color: white !important;
+height:calc(90vh -  0.5) !important;
+
+
+}
+
+.search-columns{
+     height: calc(90vh - 0.60);
+
+}
+
+@media (max-width:785px) {
+.search-container{
+     height: auto !important;
+}
+
+     
+}
