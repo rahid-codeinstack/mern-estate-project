@@ -86,3 +86,18 @@ export async function FindListing(req,res,next) {
 
      
 }
+
+// ------------------------- get all listing --------------------------------------------------------
+
+export async function getalListing(req,res,next){
+     const listingType = req.query.type ;
+     const listingoffer = req.query.offer;
+  
+     try {
+     const listing = await LISTING_MODEL.find({type:listingType,offer:listingoffer});
+     res.send(listing); 
+     } catch (error) {
+          next(error);
+
+     }
+}
